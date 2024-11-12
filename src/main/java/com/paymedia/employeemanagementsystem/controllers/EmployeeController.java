@@ -2,6 +2,7 @@ package com.paymedia.employeemanagementsystem.controllers;
 
 import com.paymedia.employeemanagementsystem.models.Employee;
 import com.paymedia.employeemanagementsystem.service.EmployeeService;
+import com.paymedia.employeemanagementsystem.utils.InputValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,8 +20,19 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
-        Employee savedEmployee = employeeService.saveEmployee(employee);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
+
+        try {
+            InputValidationUtil.isEmailValid(employee.getEmail());
+            InputValidationUtil.isNotBlank(employee.getFirstName(), "firstName");
+            InputValidationUtil.isNotBlank(employee.getLastName(), "lastName");
+            InputValidationUtil.isNotBlank(employee.getPhone(), "phone");
+
+            Employee savedEmployee = employeeService.saveEmployee(employee);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping(path = "/{employeeId}")
@@ -34,12 +46,16 @@ public class EmployeeController {
 
     @PutMapping(path = "/{employeeId}")
     public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
-        Employee updateEmployee = employeeService.updateEmployee(employee);
-
-        if (updateEmployee != null) {
+        try {
+            InputValidationUtil.isEmailValid(employee.getEmail());
+            InputValidationUtil.isNotBlank(employee.getFirstName(), "firstName");
+            InputValidationUtil.isNotBlank(employee.getLastName(), "lastName");
+            InputValidationUtil.isNotBlank(employee.getPhone(), "phone");
+            Employee updateEmployee = employeeService.updateEmployee(employee);
             return ResponseEntity.ok(updateEmployee);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

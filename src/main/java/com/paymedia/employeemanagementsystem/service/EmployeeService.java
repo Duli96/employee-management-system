@@ -36,10 +36,7 @@ public class EmployeeService {
 
     public boolean deleteEmployeeById(Long employeeId) {
         Employee existingEmployee = employeeRepository.findEmployeeById(employeeId).orElse(null);
-        if (existingEmployee != null) {
-            employeeRepository.delete(existingEmployee);
-            return true;
-        }
+        employeeRepository.delete(existingEmployee);
         return false;
     }
 
