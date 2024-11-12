@@ -50,4 +50,12 @@ public class Department {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
 }
