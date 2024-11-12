@@ -24,7 +24,8 @@ public class Department {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    public Department() {}
+    public Department() {
+    }
 
     public Long getId() {
         return id;
