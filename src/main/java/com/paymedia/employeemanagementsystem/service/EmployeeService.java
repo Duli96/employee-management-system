@@ -22,7 +22,7 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Employee employee) {
-        Employee existingEmployee = employeeRepository.findEmployeeById(employee.getId()).orElse(null);
+        Employee existingEmployee = employeeRepository.findById(employee.getId()).orElse(null);
         if (existingEmployee != null) {
             existingEmployee.setFirstName(employee.getFirstName());
             existingEmployee.setLastName(employee.getLastName());
@@ -34,8 +34,8 @@ public class EmployeeService {
         return null;
     }
 
-    public boolean deleteEmployeeById(Long employeeId) {
-        Employee existingEmployee = employeeRepository.findEmployeeById(employeeId).orElse(null);
+    public boolean deleteEmployeeById(long employeeId) {
+        Employee existingEmployee = employeeRepository.findById(employeeId).orElse(null);
         employeeRepository.delete(existingEmployee);
         return false;
     }

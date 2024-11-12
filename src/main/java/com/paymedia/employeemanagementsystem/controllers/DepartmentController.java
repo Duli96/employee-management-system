@@ -3,6 +3,7 @@ package com.paymedia.employeemanagementsystem.controllers;
 import com.paymedia.employeemanagementsystem.models.Department;
 import com.paymedia.employeemanagementsystem.models.Employee;
 import com.paymedia.employeemanagementsystem.service.DepartmentService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,7 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
-@Repository("/api/department")
+@RestController
+@RequestMapping("/api/departments")
 public class DepartmentController {
 
     @Autowired
@@ -26,7 +28,7 @@ public class DepartmentController {
     }
 
     @GetMapping(path = "/{departmentId}")
-    public ResponseEntity<Department> getDepartmentById(@RequestParam("departmentId") long departmentId) {
+    public ResponseEntity<Department> getDepartmentById(@PathParam("departmentId") Long departmentId) {
         Department department = departmentService.getDepartmentById(departmentId);
         if (department == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -46,7 +48,7 @@ public class DepartmentController {
     }
 
     @DeleteMapping(path = "/{departmentId}")
-    public ResponseEntity<Department> deleteDepartmentById(@PathVariable("departmentId") long departmentId) {
+    public ResponseEntity<Department> deleteDepartmentById(@PathParam("departmentId") Long departmentId) {
         boolean isDeleted = departmentService.deleteDepartmentById(departmentId);
         if (isDeleted) {
             return ResponseEntity.noContent().build();

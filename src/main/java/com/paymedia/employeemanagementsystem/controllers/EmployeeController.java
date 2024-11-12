@@ -3,6 +3,7 @@ package com.paymedia.employeemanagementsystem.controllers;
 import com.paymedia.employeemanagementsystem.models.Employee;
 import com.paymedia.employeemanagementsystem.service.EmployeeService;
 import com.paymedia.employeemanagementsystem.utils.InputValidationUtil;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,7 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/api/employees")
+@RestController
+@RequestMapping("/api/employees")
 public class EmployeeController {
 
     @Autowired
@@ -36,7 +38,7 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/{employeeId}")
-    public ResponseEntity<Employee> getEmployeeById(@RequestParam("employeeId") long employeeId) {
+    public ResponseEntity<Employee> getEmployeeById(@PathParam("employeeId") Long employeeId) {
         Employee employee = employeeService.getEmployeeById(employeeId);
         if (employee == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -60,7 +62,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping(path = "/{employeeId}")
-    public ResponseEntity<Employee> deleteEmployeeById(@PathVariable("employeeId") long employeeId) {
+    public ResponseEntity<Employee> deleteEmployeeById(@PathParam("employeeId") long employeeId) {
         boolean isDeleted = employeeService.deleteEmployeeById(employeeId);
         if (isDeleted) {
             return ResponseEntity.noContent().build();
